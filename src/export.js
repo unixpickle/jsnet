@@ -14,10 +14,10 @@ var exportObj = {
     canBroadcast: canBroadcast,
     matmul: matmul,
     conv2d: conv2d,
-    addBiases: addBiases,
     padImages: padImages,
     imagePatches: imagePatches,
-    relu: relu
+    relu: relu,
+    rsqrt: rsqrt
 };
 
 if ('undefined' !== typeof window) {

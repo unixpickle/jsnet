@@ -18,3 +18,20 @@ function relu(input) {
         }
     };
 }
+
+function rsqrt(input) {
+    var result = input.value.copy();
+    for (var i = 0; i < result.data.length; ++i) {
+        result.data[i] = 1 / Math.sqrt(result.data[i]);
+    }
+    return {
+        value: result,
+        backward: function(outGrad) {
+            var inGrad = outGrad.copy();
+            for (var i = 0; i < inGrad.data.length; ++i) {
+                inGrad.data[i] *= -0.5 * Math.pow(input.value.data[i], -1.5);
+            }
+            input.backward(inGrad);
+        }
+    }
+}

@@ -32,6 +32,13 @@ Tensor.prototype.copy = function() {
     return new Tensor(this.shape, this.data);
 };
 
+Tensor.prototype.scale = function(scale) {
+    for (var i = 0; i < this.data.length; ++i) {
+        this.data[i] *= scale;
+    }
+    return this;
+};
+
 Tensor.prototype.add = function(other) {
     self._assertSameShape(other);
     for (var i = 0; i < this.data.length; ++i) {
@@ -69,14 +76,30 @@ Tensor.prototype.reshape = function(shape) {
         throw Error('cannot reshape from [' + this.shape + '] to [' + shape + ']');
     }
     this.shape = shape;
+    return this;
 };
 
-Tensor.prototype.repeatOuter = function(repeats) {
-    var result = new Tensor([this.shape[0] * repeats].concat(this.shape.slice(1)));
+Tensor.prototype.repeated = function(repeats) {
+    var result = new Tensor([repeats].concat(this.shape));
     for (var i = 0; i < repeats; ++i) {
         var startIdx = i * this.data.length;
         for (var j = 0; j < this.data.length; ++j) {
             result.data[startIdx + j] = this.data[j];
+        }
+    }
+    return result;
+};
+
+Tensor.prototype.sumOuter = function() {
+    if (this.shape.length === 0) {
+        return this.copy();
+    }
+    var result = new Tensor(this.shape.slice(1));
+    var chunkSize = this.data.length / this.shape[0];
+    for (var i = 0; i < this.shape[0]; ++i) {
+        var offset = chunkSize * i;
+        for (var j = 0; j < chunkSize; ++j) {
+            result.data[j] += this.data[j + offset];
         }
     }
     return result;

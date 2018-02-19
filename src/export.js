@@ -22,7 +22,8 @@ var exportObj = {
     square: square,
     pow: pow,
     normalizeChannels: normalizeChannels,
-    channelMean: channelMean
+    channelMean: channelMean,
+    logSoftmax: logSoftmax
 };
 
 if ('undefined' !== typeof window) {

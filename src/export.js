@@ -11,7 +11,8 @@ var exportObj = {
     repeated: repeated,
     sumOuter: sumOuter,
     matmul: matmul,
-    padImages: padImages
+    padImages: padImages,
+    imagePatches: imagePatches
 };
 
 if ('undefined' !== typeof window) {

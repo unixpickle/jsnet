@@ -9,7 +9,8 @@ var exportObj = {
     div: div,
     reshape: reshape,
     repeated: repeated,
-    sumOuter: sumOuter
+    sumOuter: sumOuter,
+    matmul: matmul
 };
 
 if ('undefined' !== typeof window) {

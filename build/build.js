@@ -428,16 +428,24 @@ function relu(input) {
 }
 
 function rsqrt(input) {
+    return pow(input, -0.5);
+}
+
+function square(input) {
+    return pow(input, 2);
+}
+
+function pow(input, power) {
     var result = input.value.copy();
     for (var i = 0; i < result.data.length; ++i) {
-        result.data[i] = 1 / Math.sqrt(result.data[i]);
+        result.data[i] = Math.pow(result.data[i], power);
     }
     return {
         value: result,
         backward: function(outGrad) {
             var inGrad = outGrad.copy();
             for (var i = 0; i < inGrad.data.length; ++i) {
-                inGrad.data[i] *= -0.5 * Math.pow(input.value.data[i], -1.5);
+                inGrad.data[i] *= power * Math.pow(input.value.data[i], power - 1);
             }
             input.backward(inGrad);
         }
@@ -462,7 +470,9 @@ var exportObj = {
     padImages: padImages,
     imagePatches: imagePatches,
     relu: relu,
-    rsqrt: rsqrt
+    rsqrt: rsqrt,
+    square: square,
+    pow: pow
 };
 
 if ('undefined' !== typeof window) {

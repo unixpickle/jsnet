@@ -17,7 +17,9 @@ var exportObj = {
     padImages: padImages,
     imagePatches: imagePatches,
     relu: relu,
-    rsqrt: rsqrt
+    rsqrt: rsqrt,
+    square: square,
+    pow: pow
 };
 
 if ('undefined' !== typeof window) {

@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 values = tf.abs(tf.round(tf.random_normal([2, 3]) * 100) / 100) + 0.01
-outputs = tf.rsqrt(values)
+outputs = tf.pow(values, -1.2)
 upstream = tf.round(tf.random_normal([2, 3]) * 100) / 100
 grad = tf.gradients(tf.reduce_sum(outputs * upstream), values)[0]
 with tf.Session() as sess:

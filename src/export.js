@@ -13,7 +13,8 @@ var exportObj = {
     matmul: matmul,
     padImages: padImages,
     imagePatches: imagePatches,
-    conv2d: conv2d
+    conv2d: conv2d,
+    relu: relu
 };
 
 if ('undefined' !== typeof window) {

@@ -11,6 +11,19 @@ Variable.prototype.clearGrad = function() {
     this.gradient = new Tensor(this.gradient.shape);
 };
 
+function pool(input, f) {
+    var poolVar = new Variable(input);
+    var result = f(poolVar);
+    return {
+        value: result.value,
+        backward: function(outGrad) {
+            poolVar.clearGrad();
+            result.backward(outGrad);
+            input.backward(poolVar.gradient);
+        }
+    };
+}
+
 function scale(input, scale) {
     return {
         value: input.value.copy().scale(scale),

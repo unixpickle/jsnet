@@ -1,11 +1,13 @@
 function padImages(images, top, right, bottom, left) {
     if (images.value.shape.length !== 4) {
-        throw Error('invalid image batch');
+        throw Error('expected 4-D image tensor');
     }
-    var padded = new Tensor([images.value.shape[0],
-                             images.value.shape[1] + top + bottom,
-                             images.value.shape[2] + left + right,
-                             images.value.shape[3]]);
+    var padded = new Tensor([
+        images.value.shape[0],
+        images.value.shape[1] + top + bottom,
+        images.value.shape[2] + left + right,
+        images.value.shape[3]
+    ]);
     for (var i = 0; i < images.value.shape[0]; ++i) {
         var srcIdx = i * shapeProduct(images.value.shape.slice(1));
         var dstIdx = i * shapeProduct(padded.shape.slice(1));
@@ -43,18 +45,20 @@ function padImages(images, top, right, bottom, left) {
 
 function imagePatches(images, windowHeight, windowWidth, strideY, strideX) {
     if (images.value.shape.length !== 4) {
-        throw Error('invalid image batch');
+        throw Error('expected 4-D image tensor');
     } else if (images.value.shape[1] < windowHeight || images.value.shape[2] < windowWidth) {
         throw Error('window larger than image');
     }
     var rowSize = shapeProduct(images.value.shape.slice(2));
     var depth = images.value.shape[3];
-    var result = new Tensor([images.value.shape[0],
-                             1 + Math.floor((images.value.shape[1] - windowHeight) / strideY),
-                             1 + Math.floor((images.value.shape[2] - windowWidth) / strideX),
-                             windowHeight,
-                             windowWidth,
-                             depth]);
+    var result = new Tensor([
+        images.value.shape[0],
+        1 + Math.floor((images.value.shape[1] - windowHeight) / strideY),
+        1 + Math.floor((images.value.shape[2] - windowWidth) / strideX),
+        windowHeight,
+        windowWidth,
+        depth
+    ]);
     var dstIdx = 0;
     for (var i = 0; i < result.shape[0]; ++i) {
         var batchStart = i * shapeProduct(images.value.shape.slice(1));

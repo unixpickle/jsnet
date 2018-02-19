@@ -40,7 +40,7 @@ Tensor.prototype.scale = function(scale) {
 };
 
 Tensor.prototype.add = function(other) {
-    self._assertSameShape(other);
+    this._assertSameShape(other);
     for (var i = 0; i < this.data.length; ++i) {
         this.data[i] += other.data[i];
     }
@@ -48,7 +48,7 @@ Tensor.prototype.add = function(other) {
 };
 
 Tensor.prototype.sub = function(other) {
-    self._assertSameShape(other);
+    this._assertSameShape(other);
     for (var i = 0; i < this.data.length; ++i) {
         this.data[i] -= other.data[i];
     }
@@ -56,7 +56,7 @@ Tensor.prototype.sub = function(other) {
 };
 
 Tensor.prototype.mul = function(other) {
-    self._assertSameShape(other);
+    this._assertSameShape(other);
     for (var i = 0; i < this.data.length; ++i) {
         this.data[i] *= other.data[i];
     }
@@ -64,7 +64,7 @@ Tensor.prototype.mul = function(other) {
 };
 
 Tensor.prototype.div = function(other) {
-    self._assertSameShape(other);
+    this._assertSameShape(other);
     for (var i = 0; i < this.data.length; ++i) {
         this.data[i] /= other.data[i];
     }

@@ -12,7 +12,7 @@ Variable.prototype.clearGrad = function() {
 };
 
 function pool(input, f) {
-    var poolVar = new Variable(input);
+    var poolVar = new Variable(input.value);
     var result = f(poolVar);
     return {
         value: result.value,

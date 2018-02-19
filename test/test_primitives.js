@@ -49,9 +49,24 @@ function testSumOuter() {
     assertClose(input.gradient, new jsnet.Tensor([3, 2], [1, 2, 1, 2, 1, 2]));
 }
 
+function testBroadcast() {
+    const input = new jsnet.Variable(new jsnet.Tensor([2, 1], [3, 4]));
+    let output = jsnet.broadcast(input, [3, 2, 1]);
+    assertClose(output.value, new jsnet.Tensor([3, 2, 1], [3, 4, 3, 4, 3, 4]));
+    output = jsnet.broadcast(input, [1, 2, 2, 1]);
+    assertClose(output.value, new jsnet.Tensor([1, 2, 2, 1], [3, 4, 3, 4]));
+
+    [[1], [2, 2], [3, 2, 2], [3, 1, 1]].forEach((newShape) => {
+        if (jsnet.canBroadcast(input.value.shape, newShape)) {
+            throw new Error('should not be able to broadcast to ' + newShape);
+        }
+    });
+}
+
 testPool();
 testScale();
 testArithmetic();
 testRepeated();
 testSumOuter();
+testBroadcast();
 console.log('PASS');

@@ -10,10 +10,13 @@ var exportObj = {
     reshape: reshape,
     repeated: repeated,
     sumOuter: sumOuter,
+    broadcast: broadcast,
+    canBroadcast: canBroadcast,
     matmul: matmul,
+    conv2d: conv2d,
+    addBiases: addBiases,
     padImages: padImages,
     imagePatches: imagePatches,
-    conv2d: conv2d,
     relu: relu
 };
 

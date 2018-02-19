@@ -230,6 +230,28 @@ function sumOuter(input) {
         }
     };
 }
+
+function broadcast(input, shape) {
+    if (!canBroadcast(input.value.shape, shape)) {
+        throw Error('cannot broadcast from shape [' + input.value.shape + '] to [' + shape + ']');
+    }
+    while (input.value.shape.length < shape.length) {
+        input = repeated(input, shape[shape.length - input.value.shape.length - 1]);
+    }
+    return input;
+}
+
+function canBroadcast(src, dst) {
+    if (src.length > dst.length) {
+        return false;
+    }
+    for (var i = 0; i < src.length; ++i) {
+        if (src[i] !== dst[dst.length - src.length + i]) {
+            return false;
+        }
+    }
+    return true;
+}
 function padImages(images, top, right, bottom, left) {
     if (images.value.shape.length !== 4) {
         throw Error('expected 4-D image tensor');
@@ -416,10 +438,13 @@ var exportObj = {
     reshape: reshape,
     repeated: repeated,
     sumOuter: sumOuter,
+    broadcast: broadcast,
+    canBroadcast: canBroadcast,
     matmul: matmul,
+    conv2d: conv2d,
+    addBiases: addBiases,
     padImages: padImages,
     imagePatches: imagePatches,
-    conv2d: conv2d,
     relu: relu
 };
 

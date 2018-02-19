@@ -87,7 +87,7 @@ function imagePatches(images, windowHeight, windowWidth, strideY, strideX) {
                         for (var l = 0; l < windowHeight; ++l) {
                             var rowStart = srcIdx + l * rowSize;
                             for (var m = 0; m < windowWidth * depth; ++m) {
-                                inGrad.data[rowStart + m] += outGrad.data[dstIdx++];
+                                inGrad.data[rowStart + m] += outGrad.data[outIdx++];
                             }
                         }
                     }

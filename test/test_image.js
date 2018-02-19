@@ -39,7 +39,7 @@ function testConv2d() {
     const filterVar = new jsnet.Variable(filters);
     const actualOut = jsnet.conv2d(imageVar, filterVar, 2, 1);
     assertClose(actualOut.value, outputs);
-    actualOut.backward(upstream)
+    actualOut.backward(upstream);
     assertClose(imageVar.gradient, imageGrad);
     assertClose(filterVar.gradient, filterGrad);
 }

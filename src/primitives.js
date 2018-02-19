@@ -33,6 +33,15 @@ function scale(input, scale) {
     };
 }
 
+function addScalar(input, scalar) {
+    return {
+        value: input.value.copy().addScalar(scalar),
+        backward: function(outGrad) {
+            input.backward(outGrad);
+        }
+    };
+}
+
 function add(input1, input2) {
     return {
         value: input1.value.copy().add(input2.value),

@@ -3,6 +3,7 @@ var exportObj = {
     Variable: Variable,
     pool: pool,
     scale: scale,
+    addScalar: addScalar,
     add: add,
     sub: sub,
     mul: mul,
@@ -19,7 +20,9 @@ var exportObj = {
     relu: relu,
     rsqrt: rsqrt,
     square: square,
-    pow: pow
+    pow: pow,
+    normalizeChannels: normalizeChannels,
+    channelMean: channelMean
 };
 
 if ('undefined' !== typeof window) {

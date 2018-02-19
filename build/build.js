@@ -40,6 +40,13 @@ Tensor.prototype.scale = function(scale) {
     return this;
 };
 
+Tensor.prototype.addScalar = function(scalar) {
+    for (var i = 0; i < this.data.length; ++i) {
+        this.data[i] += scalar;
+    }
+    return this;
+}
+
 Tensor.prototype.add = function(other) {
     this._assertSameShape(other);
     for (var i = 0; i < this.data.length; ++i) {
@@ -155,6 +162,15 @@ function scale(input, scale) {
         value: input.value.copy().scale(scale),
         backward: function(outGrad) {
             input.backward(outGrad.copy().scale(scale));
+        }
+    };
+}
+
+function addScalar(input, scalar) {
+    return {
+        value: input.value.copy().addScalar(scalar),
+        backward: function(outGrad) {
+            input.backward(outGrad);
         }
     };
 }
@@ -451,11 +467,29 @@ function pow(input, power) {
         }
     }
 }
+var DEFAULT_EPSILON = 0.001;
+
+function normalizeChannels(input, epsilon) {
+    epsilon = epsilon || DEFAULT_EPSILON;
+    var centered = sub(input, broadcast(channelMean(input), input.value.shape));
+    var variance = addScalar(channelMean(square(centered)), epsilon);
+    return mul(centered, broadcast(rsqrt(variance), input.value.shape));
+}
+
+function channelMean(input) {
+    var count = 1;
+    while (input.value.shape.length > 1) {
+        count *= input.value.shape[0];
+        input = sumOuter(input);
+    }
+    return scale(input, 1 / count);
+}
 var exportObj = {
     Tensor: Tensor,
     Variable: Variable,
     pool: pool,
     scale: scale,
+    addScalar: addScalar,
     add: add,
     sub: sub,
     mul: mul,
@@ -472,7 +506,9 @@ var exportObj = {
     relu: relu,
     rsqrt: rsqrt,
     square: square,
-    pow: pow
+    pow: pow,
+    normalizeChannels: normalizeChannels,
+    channelMean: channelMean
 };
 
 if ('undefined' !== typeof window) {

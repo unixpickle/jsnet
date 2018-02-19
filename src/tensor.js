@@ -39,6 +39,13 @@ Tensor.prototype.scale = function(scale) {
     return this;
 };
 
+Tensor.prototype.addScalar = function(scalar) {
+    for (var i = 0; i < this.data.length; ++i) {
+        this.data[i] += scalar;
+    }
+    return this;
+}
+
 Tensor.prototype.add = function(other) {
     this._assertSameShape(other);
     for (var i = 0; i < this.data.length; ++i) {

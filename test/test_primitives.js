@@ -19,6 +19,14 @@ function testScale() {
     assertClose(result.value, new jsnet.Tensor([2], [4, 6]));
 }
 
+function testAddScalar() {
+    const input = new jsnet.Variable(new jsnet.Tensor([2], [2, 3]));
+    const result = jsnet.addScalar(input, 2);
+    result.backward(new jsnet.Tensor([2], [1, -1]));
+    assertClose(input.gradient, new jsnet.Tensor([2], [1, -1]));
+    assertClose(result.value, new jsnet.Tensor([2], [4, 5]));
+}
+
 function testArithmetic() {
     const input1 = new jsnet.Variable(new jsnet.Tensor([2, 3], [0.5, -0.3, 0.2, 0.7, -0.8, 0.9]));
     const input2 = new jsnet.Variable(new jsnet.Tensor([2, 3], [0.1, -0.7, -0.1, 0.3, 0.5, -0.6]));
@@ -65,6 +73,7 @@ function testBroadcast() {
 
 testPool();
 testScale();
+testAddScalar();
 testArithmetic();
 testRepeated();
 testSumOuter();

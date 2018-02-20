@@ -28,6 +28,8 @@ var exportObj = {
 
 if ('undefined' !== typeof window) {
     window.jsnet = exportObj;
+} else if ('undefined' !== typeof self) {
+    self.jsnet = exportObj;
 } else {
     module.exports = exportObj;
 }

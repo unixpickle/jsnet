@@ -471,9 +471,11 @@ var DEFAULT_EPSILON = 0.001;
 
 function normalizeChannels(input, epsilon) {
     epsilon = epsilon || DEFAULT_EPSILON;
-    var centered = sub(input, broadcast(channelMean(input), input.value.shape));
-    var variance = addScalar(channelMean(square(centered)), epsilon);
-    return mul(centered, broadcast(rsqrt(variance), input.value.shape));
+    return pool(input, function(input) {
+        var centered = sub(input, broadcast(channelMean(input), input.value.shape));
+        var variance = addScalar(channelMean(square(centered)), epsilon);
+        return mul(centered, broadcast(rsqrt(variance), input.value.shape));
+    });
 }
 
 function channelMean(input) {
